@@ -50,6 +50,8 @@
             if (is_null($empleado)) {
                 break;
             }
+
+            $empleado = null;
         }
 
         echo $mensaje;
