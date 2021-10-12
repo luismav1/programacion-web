@@ -17,9 +17,14 @@
             Un triangulo con un cateto de <?php echo $cateto1 ?> cm y otro de <?php echo $cateto2 ?>cm
             tiene una hipotenusa de <?php echo $hipotenusa ?>cm
         </h1>
+        <a href="">volver</a>
     <?php else : ?>
     <form method="post">
-        <input type="submit" name="calcular" />
+        <h3>
+            Presione el botón para conocer cuál es la hipotenusa de un triángulo de rectángulo de
+            catetos de 3cm y 4cm.
+        </h3>
+        <input type="submit" name="calcular" value="¿Cuánto es?" />
     </form>
     <?php endif; ?>
 </body>
