@@ -20,7 +20,7 @@
                 $mensaje = "<p style='color: red;'>Se requiere el nombre del empleado #$num_empleado</p>";
             } else if (!isset($_POST['apellido'.$i]) || empty($_POST['apellido'.$i])) {
                 $mensaje = "<p style='color: red;'>Se requiere el apellido del empleado #$num_empleado</p>";
-            } else if (!isset($_POST['cedula'.$i]) || empty($_POST['cedula'.$i]) || !is_numeric($_POST['cedula'.$i]) || strlen($_POST['cedula'.$i]) < 5) {
+            } else if (!isset($_POST['cedula'.$i]) || empty($_POST['cedula'.$i]) || !is_numeric($_POST['cedula'.$i]) || strlen($_POST['cedula'.$i]) < 4) {
                 $mensaje = "<p style='color: red;'>Empleado #$num_empleado tiene una cedula invalida</p>";
             } else if (!isset($_POST['salario'.$i]) || empty($_POST['salario'.$i]) || !is_numeric($_POST['salario'.$i]) || $_POST['salario'.$i] <= 0) {
                 $mensaje = "<p style='color: red;'>Empleado #$num_empleado tiene un salario invalido</p>";
