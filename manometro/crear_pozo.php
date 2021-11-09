@@ -1,42 +1,54 @@
 <?php
+session_start();
+
 require_once 'config/bd.php';
+require_once 'autorizacion.php';
 
 if (isset($_POST['crear_pozo'])) {
-    $ubicacion = mysqli_real_escape_string($_POST['ubicacion']);
+    $ubicacion = $_POST['ubicacion'];
 
-    $resultado = mysqli_query(
-        $conexion,
-        "INSERT INTO pozos (ubicacion) VALUES ('{$ubicacion}')"
-    );
-
-    if (!$resultado) {
-        $_SESSION['mensaje'] = 'Información de pozo inválida';
+    if (strlen($ubicacion) > 120 || strlen($ubicacion) < 10) {
+        $_SESSION['mensaje'] = 'La ubicación del pozo debe tener un máximo de 120 caracteres, mínimo 10.';
         header('Location: crear_pozo.php');
     }
 
+    $ubicacion_segura = mysqli_real_escape_string($conexion, $ubicacion);
+
+    $resultado = mysqli_query($conexion, "INSERT INTO pozos (ubicacion) VALUES ('$ubicacion_segura')");
+
+    if (!$resultado) {
+        $_SESSION['mensaje'] = 'Error en consulta';
+        header('Location: crear_pozo.php');
+    }
+
+    $_SESSION['mensaje'] = 'Pozo';
     header('Location: index.php');
 }
-
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear pozo</title>
-</head>
+<?php require 'head.php'; ?>
 <body>
-<h3>Crear pozo</h3>
-<?php
-if ($_SESSION['mensaje']) {
-    echo '<h2>'.$_SESSION['mensaje'].'</h2>';
-    unset($_SESSION['mensaje']);
-}
-?>
-<form action="crear_pozo.php" method="post">
-    <input type="text" name="ubicacion" />
-    <input type="submit" value="Crear" />
-</form>
+    <?php require 'nav.php'; ?>
+    <h3>Crear pozo</h3>
+    <div class="container">
+        <?php require 'mensaje.php'; ?>
+        <form action="crear_pozo.php" method="post">
+            <div class="input-field">
+                <label for="ubicacion">Ubicación</label>
+                <input type="text" name="ubicacion"
+                       maxlength="120"
+                       class="validate"
+                        id="ubicacion"
+                        />
+                <span class="helper-text"
+                      data-error="wrong"
+                      data-success="right">
+                    Ubicación del pozo debe tener un máximo de
+                    120 caracteres, mínimo 10.
+                </span>
+            </div>
+            <input type="submit" value="Crear" class="btn waves-effect waves-light" name="crear_pozo" />
+        </form>
+    </div>
+    <?php require 'js.php'; ?>
 </body>
 </html>

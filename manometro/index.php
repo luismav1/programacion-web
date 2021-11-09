@@ -1,26 +1,46 @@
 <?php
+session_start();
 require_once 'config/bd.php';
+require_once 'autorizacion.php';
+
+require 'head.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pozos petroleros</title>
-</head>
 <body>
-    <h3>Pozos </h3>
-    <ul>
+<?php require 'nav.php'; ?>
+<h3>Pozos </h3>
+<a class="btn waves-effect waves-light" href="crear_pozo.php">Crear pozo</a>
+<div class="container">
+    <?php require 'mensaje.php'; ?>
+    <ul class="collection">
         <?php
         $resultado = mysqli_query($conexion, 'SELECT * FROM pozos');
 
-        while ($pozo = mysqli_fetch_assoc($resultado)) {
-        ?>
-            <li><?php echo 'Pozo '.$pozo['id']; ?> (<?php echo $pozo['ubicacion']?>)</li>
-        <?php }
+        if ($resultado) {
+            while ($pozo = mysqli_fetch_assoc($resultado)) {
+                ?>
+                <li class="collection-item">
+                    <?php echo 'Pozo #' . $pozo['id']; ?> (<?php echo $pozo['ubicacion'] ?>)
+                    <a class="btn waves-effect waves-light red" href="eliminar_pozo.php?id=<?php echo $pozo['id']; ?>">
+                               <span class="material-icons">
+                                   delete
+                               </span>
+                    </a>
+                    <a class="btn waves-effect waves-light" href="editar_pozo.php?id=<?php echo $pozo['id']; ?>">
+                               <span class="material-icons">
+                                   edit
+                               </span>
+                    </a>
+                </li>
+            <?php }
+        } else {
+            $mensaje = mysqli_error($conexion);
+            echo "<h3>$mensaje</h3>";
+        }
 
         ?>
     </ul>
+</div>
+
+<?php require 'js.php'; ?>
 </body>
 </html>
