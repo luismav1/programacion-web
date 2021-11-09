@@ -6,5 +6,8 @@
             </span>
             Pozos petroleros
         </a>
+        <?php if ($_SESSION['usuario']) {?>
+            <a href="salir.php" class="btn red">SALIR</a>
+        <?php } ?>
     </div>
 </nav>
