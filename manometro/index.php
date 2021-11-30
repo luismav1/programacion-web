@@ -30,6 +30,11 @@ require 'head.php';
                                    edit
                                </span>
                     </a>
+                    <a class="btn waves-effect waves-light" href="manometro.php?pozo_id=<?php echo $pozo['id']; ?>">
+                               <span class="material-icons">
+                                   analytics
+                               </span>
+                    </a>
                 </li>
             <?php }
         } else {

@@ -88,7 +88,9 @@ if (isset($_POST['editar_pozo']) && isset($_POST['id'])) {
             </div>
             <input type="submit" value="Editar" name="editar_pozo" />
         </form>
+        <a href="index.php">Atrás</a>
     </div>
+
     <?php require 'js.php'; ?>
 </body>
 </html>

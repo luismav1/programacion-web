@@ -5,3 +5,16 @@
 .text-end {
     text-align: end;
 }
+
+.danger {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.scroll_50 {
+    max-height: 50vh;
+    overflow: auto;
+}
