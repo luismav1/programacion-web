@@ -12,7 +12,7 @@ if (isset($_POST['registrar'])) {
 
     if (!$usuario || !$contrasenia) {
         $_SESSION['mensaje'] = 'Información incompleta';
-        header('Location: registro_usuario.php');
+        header('Location: signup.php');
         die;
     };
 
@@ -25,7 +25,7 @@ if (isset($_POST['registrar'])) {
 
     if (!$resultado) {
         $_SESSION['mensaje'] = mysqli_error($conexion);
-        header('Location: registro_usuario.php');
+        header('Location: signup.php');
         die;
     }
 
@@ -33,19 +33,19 @@ if (isset($_POST['registrar'])) {
 
         $contrasenia = password_hash($contrasenia, PASSWORD_BCRYPT);
         $resultado = mysqli_query($conexion,
-            "INSERT INTO usuarios (usuario, contrasenia, nombre, apellido, tipo) VALUES ('$usuario_seguro', '$contrasenia', '$nombre', '$apellido', '$tipo')");
+            "INSERT INTO usuarios (usuario, password, nombre, apellido, tipo) VALUES ('$usuario_seguro', '$contrasenia', '$nombre', '$apellido', '$tipo')");
 
         if (!$resultado) {
             $_SESSION['mensaje'] = mysqli_error($conexion);
-            header('Location: registro_usuario.php');
+            header('Location: signup.php');
             die;
         }
 
-        header('Location: acceder.php');
+        header('Location: login.php');
         die;
     } else {
         $_SESSION['mensaje'] = 'Usuario o contraseña inválida';
-        header('Location: registro_usuario.php');
+        header('Location: signup.php');
         die;
     }
 }
@@ -54,8 +54,9 @@ if (isset($_POST['registrar'])) {
 <?php include 'head.php'; ?>
 
 <div class="container">
-    <div class="card">
+    <div class="card bg-info">
         <div class="card-body">
+            <?php include 'mensaje.php'; ?>
             <form method="post" action="signup.php">
                 <label class="form-label">Usuario</label>
                 <input type="text" class="form-control" name="usuario" />
@@ -70,6 +71,7 @@ if (isset($_POST['registrar'])) {
                 </select>
                 <label class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="contrasenia" />
+                <input type="submit" class="btn btn-danger" name="registrar" value="REGISTRAR">
             </form>
             <a href="login.php">Ya tiene una cuenta? ¡Acceda!</a>
         </div>

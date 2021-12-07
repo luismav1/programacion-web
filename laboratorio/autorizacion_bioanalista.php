@@ -18,7 +18,7 @@ if (!$secretaria) {
     exit;
 }
 
-if ($secretaria['tipo'] !== 'secretaria') {
+if ($secretaria['tipo'] !== 'bioanalista') {
     header('Location: index.php');
     exit;
 }

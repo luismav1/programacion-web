@@ -15,7 +15,7 @@ if ($_POST['registrar']) {
 
     $resultado = mysqli_query($conexion,
         "INSERT INTO examenes (tipo_examen, paciente_id, procedimiento, fecha) VALUES ('$tipo', '$paciente', '$procedimiento', '$fecha')");
-}
+
     if (!$resultado) {
         $_SESSION['mensaje'] = mysqli_error($conexion);
         header('Location: crear_examen.php');
@@ -26,19 +26,23 @@ if ($_POST['registrar']) {
     $_SESSION['clase_mensaje'] = 'success';
     header('Location: index.php');
     exit;
+}
 ?>
 <?php include 'head.php'; ?>
 
 <div class="container">
     <?php include 'mensaje.php'; ?>
-    <form method="post" action="login.php">
+    <form method="post" action="crear_examen.php">
         <label class="form-label">Tipo</label>
         <input type="text" class="form-control" name="tipo" />
         <label class="form-label">Paciente</label>
         <select name="paciente_id" class="form-select">
             <?php
-            $resultado = mysqli_query("SELECT * FROM pacientes");
+            $resultado = mysqli_query($conexion, "SELECT * FROM pacientes");
 
+            if (!$resultado) {
+                echo mysqli_error($conexion);
+            } else {
             $pacientes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
             foreach ($pacientes as $paciente) {?>
@@ -46,11 +50,12 @@ if ($_POST['registrar']) {
                     <?php echo "{$paciente['cedula']} .- {$paciente['nombre']} {$paciente['apellido']}"; ?>
                 </option>
             <?php } ?>
+         <?php   } ?>
         </select>
         <label>Fecha</label>
         <input name="fecha" type="datetime-local" class="form-control">
         <label>Procedimiento</label>
-        <textarea name="procedimiento" cols="30" rows="10"></textarea>
+        <textarea name="procedimiento" cols="30" rows="10" class="form-control"></textarea>
         <input type="submit" class="btn btn-danger" name="registrar" value="Registrar examen">
     </form>
 </div>
