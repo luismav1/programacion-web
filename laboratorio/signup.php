@@ -66,13 +66,12 @@ if (isset($_POST['registrar'])) {
                 <label class="form-label">Tipo de usuario</label>
                 <select name="tipo_usuario" class="form-select">
                     <option value="secretaria">Secretaria</option>
-                    <option value="bioanalista">Bioanalista</opti            <a href="signup.php">No tiene una cuenta? regístrese!</a>
-on>
+                    <option value="bioanalista">Bioanalista</option>
                 </select>
                 <label class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="contrasenia" />
             </form>
-            <a href="login.php">No tiene una cuenta? regístrese!</a>
+            <a href="login.php">Ya tiene una cuenta? ¡Acceda!</a>
         </div>
     </div>
 
