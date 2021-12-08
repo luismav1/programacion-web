@@ -1,7 +1,7 @@
 <?php
 require_once 'autorizacion_secretaria.php';
 
-if ($_POST['registrar']) {
+if (isset($_POST['registrar'])) {
     $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
     $apellido = mysqli_real_escape_string($conexion, $_POST['apellido']);
     $email = mysqli_real_escape_string($conexion, $_POST['email']);

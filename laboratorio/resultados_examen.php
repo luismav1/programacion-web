@@ -41,7 +41,7 @@ if ($_POST['resultados']) {
 
 <form method="post" action="resultados_examen.php">
     <input type="hidden" name="examen_id" value="<?php echo $examen['id']?>">
-    <textarea name="resultados" class="form-control"></textarea>
+    <textarea name="resultado" class="form-control"></textarea>
     <input type="submit" name="resultados" class="btn btn-danger" value="ENVIAR" >
 </form>
 

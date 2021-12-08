@@ -1,4 +1,5 @@
 <?php
+require_once 'conexion.php';
 require_once 'autorizacion.php';
 
 $examen_id = mysqli_real_escape_string($conexion, $_GET['id']);
@@ -23,7 +24,7 @@ if (!$examen) {
 $eol = PHP_EOL;
 
 // attachment name
-$filename = "reporte.pdf";
+$filename = "{$examen['cedula']}-{$examen['fecha']}.pdf";
 
 // a random hash will be necessary to send mixed content
 $separator = md5(time());
@@ -36,10 +37,9 @@ $fpdf->AddPage();
 $fpdf->SetFont('Arial','B', 12);
 $y = $fpdf->GetY();
 $x = $fpdf->GetX();
-$fpdf->MultiCell(160, 25, "Paciente: {$examen['paciente_nombre']} {$examen['apellido']}");
-$last_y = $fpdf->GetY();
-$fpdf->SetXY($x + 160, $y);
-$fpdf->Cell(85, 25, "Cédula: {$examen['cedula']}");
+$fpdf->Cell(160, 25, "Paciente: {$examen['nombre']} {$examen['apellido']}");
+$fpdf->SetXY($x, $y +5);
+$fpdf->Cell(85, 25, utf8_decode("Cédula: {$examen['cedula']}"));
 $fpdf->SetFont('Arial','B', 12);
 $fpdf->SetXY(0, $y+10);
 $fpdf->Cell(210, 25, "RESULTADOS DEL EXAMEN #{$examen['id']} ({$examen['tipo_examen']})",
@@ -47,19 +47,21 @@ $fpdf->Cell(210, 25, "RESULTADOS DEL EXAMEN #{$examen['id']} ({$examen['tipo_exa
 $fpdf->SetXY(0, $y+20);
 $fpdf->SetFont('Arial','B', 10);
 $fpdf->Cell(10, 25);
-$fpdf->Cell(160, 25, utf8_decode('DESCRIPCIÓN'));
+$fpdf->Cell(80, 25, utf8_decode('PROCEDIMIENTO'));
 $fpdf->SetXY(0, $y+35);
 $fpdf->SetFont('Arial','', 10);
 $fpdf->Cell(10, 25);
-$fpdf->MultiCell(180, 25, utf8_decode($examen['descripcion']), 1);
+$fpdf->MultiCell(80, 25, utf8_decode($examen['procedimiento']), 'R');
 $fpdf->SetFont('Arial','B', 10);
-$fpdf->Cell(160, 25, utf8_decode('RESULTADOS'));
+$fpdf->SetXY(80, $y+20);
+$fpdf->Cell(80, 10);
+$fpdf->Cell(110, 25, utf8_decode('RESULTADOS'));
 $y = $fpdf->GetY();
 $fpdf->SetFont('Arial','', 10);
-$fpdf->SetXY(10, $y+25);
-$fpdf->MultiCell(180, 25, utf8_decode($examen['resultados']), 1);
-$y = $fpdf->GetY();
-$fpdf->SetXY(0, $y+25);
+$fpdf->SetXY(105, $y+25);
+$fpdf->Cell(10, 25);
+$fpdf->SetFillColor(235, 233, 233);
+$fpdf->MultiCell(110, 25, utf8_decode($examen['resultados']), 0, 'J', true);
 $pdf = $fpdf->Output('', 'S');
 
 $attachment = chunk_split(base64_encode($pdf));
@@ -70,7 +72,7 @@ $from = 'luisaranaga13@gmail.com';
 
 $body = "--" . $separator . $eol;
 $body .= "Content-Transfer-Encoding: 7bit" . $eol . $eol;
-$body .= "This is a MIME encoded message." . $eol;
+$body .= "Hola, {$examen['nombre']} {$examen['apellido']} ! Estos son los resultados de su examen." . $eol;
 
 // message
 $body .= "--" . $separator . $eol;
