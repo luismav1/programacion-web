@@ -49,7 +49,7 @@ $usuario_actual = mysqli_fetch_assoc($resultado);
 
                     if ($examen['estado'] === 'completado') {
                         $html .= "<td><a href='enviar_examen.php?id={$examen['id']}' class='btn btn-primary'>Enviar</a>";
-                    } else {
+                    } else if ($usuario_actual['tipo'] === 'bioanalista') {
                         $html .= "<td><a href='resultados_examen.php?id={$examen['id']}' class='btn btn-primary'>Agregar resultados</a>";
                     }
 
