@@ -27,7 +27,7 @@ if (isset($_POST['acceder'])) {
     if ($registro_usuario = mysqli_fetch_assoc($resultado)) {
         if (password_verify($contrasenia, $registro_usuario['contrasenia'])) {
             $_SESSION['mensaje'] = '¡Bienvenido!';
-            $_SESSION['usuario'] = $usuario;
+            $_SESSION['usuario'] = $registro_usuario['id'];
             header('Location: index.php');
             die;
         }
